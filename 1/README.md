@@ -1,0 +1,1 @@
+Testowy program do sprawdzenia działania github-a i pycharm-a.
