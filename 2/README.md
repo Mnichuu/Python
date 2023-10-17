@@ -1,0 +1,1 @@
+Zadania od 2.10 do 2.19
