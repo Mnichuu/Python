@@ -1,5 +1,14 @@
 line = "Patrzę na was, głodnych, przerażonych, przyciskających dzieci do pierśi"
-licznik = 0
+wynik = 0
+
 for wyraz in line.split():
-    licznik = licznik + 1
-print(f" Łączna ilośc wyrazów: {licznik} ")
+    if wyraz[-1] == "," and len(wyraz) > 1:
+        wynik = wynik - 1
+    lenght = len(wyraz)
+    wynik = wynik + lenght
+
+print(f" Łączna ilośc wyrazów policzona tradycyjnie: {wynik} ")
+
+wynik_sum = sum(len(wyraz) - (1 if wyraz[-1] == "," else 0) for wyraz in line.split())
+
+print(f" Łączna ilośc wyrazów policzona za pomocą funkcji sum(): {wynik_sum} ")
