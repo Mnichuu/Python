@@ -1,22 +1,23 @@
 def rysuj_miarkę(dl):
     miarka = "|"
-    cyfry = ""
+    cyfry = "0"
 
-    for i in range(5*(dl) + 1):
-        if i % 5 == 0 and int(i/5) < 10:
-            miarka += "|"
-            cyfry += str(int(i/5))
+    for i in range(dl+1):
+        miarka += "....|"
+        if i > 9 and i < 99:
+            cyfry += "   "
+            if (len(cyfry) % 4 == 0):
+                cyfry += str(int(i+1))
         else:
-                miarka += "."
-                cyfry += " "
-
-
+            cyfry += "    "
+            if (len(cyfry) % 5 == 0):
+                cyfry += str(int(i+1))
 
 
     print(miarka)
     print(cyfry)
 
 # Przykładowe użycie:
-dlugosc = 19
+dlugosc = 10
 rysuj_miarkę(dlugosc)
 
