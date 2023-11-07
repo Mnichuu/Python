@@ -17,12 +17,12 @@ def cmp_frac(frac1, frac2): pass        # -1 | 0 | +1
 
 def frac2float(frac): pass              # konwersja do float
 
-# f1 = [-1, 2]      # -1/2
-# f2 = [1, -2]      # -1/2 (niejednoznaczność)
-# f3 = [0, 1]       # zero
-# f4 = [0, 2]       # zero (niejednoznaczność)
-# f5 = [3, 1]       # 3
-# f6 = [6, 2]       # 3 (niejednoznaczność)
+f1 = [-1, 2]      # -1/2
+f2 = [1, -2]      # -1/2 (niejednoznaczność)
+f3 = [0, 1]       # zero
+f4 = [0, 2]       # zero (niejednoznaczność)
+f5 = [3, 1]       # 3
+f6 = [6, 2]       # 3 (niejednoznaczność)
 
 import unittest
 
