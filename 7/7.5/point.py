@@ -3,6 +3,8 @@ class Point:
     """Klasa reprezentująca punkty na płaszczyźnie."""
 
     def __init__(self, x, y):
+        if not isinstance(x, (int, float)) or not isinstance(y, (int, float)):
+            raise ValueError("x lub y muszą być liczbami")
         self.x = x
         self.y = y
 
