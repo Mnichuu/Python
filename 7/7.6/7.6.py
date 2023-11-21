@@ -1,0 +1,11 @@
+from ZeroOneIterator import zero_one_iter
+from RandomDirectionIterator import random_direction_iter
+from DaysOfWeekIterator import days_of_week_iter
+
+zero_one_iter
+
+
+random_direction_iter
+
+
+days_of_week_iter
