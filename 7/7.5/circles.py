@@ -1,4 +1,5 @@
 import math
+from point import Point
 
 
 class Circle:
@@ -28,7 +29,7 @@ class Circle:
 
     def cover(self, other):
         distance = math.sqrt((self.pt.x - other.pt.x) ** 2 + (self.pt.y - other.pt.y) ** 2)
-        max_radius = max(self.radius, other.radius, distance / 2)
+        max_radius = float(max(self.radius, other.radius, distance / 2))
         center_x = (self.pt.x + other.pt.x) / 2
         center_y = (self.pt.y + other.pt.y) / 2
         return Circle(center_x, center_y, max_radius)
