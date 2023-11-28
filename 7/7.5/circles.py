@@ -24,6 +24,8 @@ class Circle:
         return math.pi * self.radius ** 2
 
     def move(self, x, y):
+        if not (isinstance(x, (int, float)) and isinstance(y, (int, float))):
+            raise ValueError("Wspolrzedne musza byc liczbami")
         self.pt.x += x
         self.pt.y += y
 
