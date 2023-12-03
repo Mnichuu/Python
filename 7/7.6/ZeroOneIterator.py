@@ -1,5 +1,4 @@
 class ZeroOneIterator:
-    value = 0
 
     def __iter__(self):
         self.value = 0
