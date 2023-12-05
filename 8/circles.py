@@ -62,7 +62,6 @@ class Circle:
 
         radius = math.sqrt((x - x1) ** 2 + (y - y1) ** 2)
 
-        # Poprawka znaku
         return cls(x, y, abs(radius))
 
     @property
