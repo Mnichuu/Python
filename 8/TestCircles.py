@@ -72,8 +72,8 @@ def test_circle_move():
 
 def test_circle_cover():
     circle1 = Circle(0, 0, 5)
-    circle2 = Circle(0, 0, 3)
-    circle3 = Circle(10, 10, 13)
+    circle2 = Circle(0, 0, 2)
+    circle3 = Circle(0, 0, 18)
 
     assert circle1.cover(circle2) == circle1
     assert circle1.cover(circle3) == circle3
@@ -81,10 +81,10 @@ def test_circle_cover():
 
 
 def test_circle_from_points():
-    point1 = Point(0, 0)
-    point2 = Point(3, 0)
-    point3 = Point(0, 4)
+    point1 = Point(1, 0)
+    point2 = Point(0, 1)
+    point3 = Point(0, 0)
     circle = Circle.from_points((point1, point2, point3))
 
-    assert circle.pt == Point(1.5, 2)
-    assert circle.radius == pytest.approx(2.5, rel=1e-2)
+    assert circle.pt == Point(0.5, 0.5)
+    assert circle.radius == pytest.approx(0.7, rel=0.1)

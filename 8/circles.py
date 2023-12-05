@@ -57,12 +57,13 @@ class Circle:
         if det == 0:
             raise ValueError("Podane punkty są współliniowe")
 
-        x = (e * d - b * f) / det
-        y = (a * f - e * c) / det
+        x = -(e * d - b * f) / det
+        y = -(a * f - e * c) / det
 
         radius = math.sqrt((x - x1) ** 2 + (y - y1) ** 2)
 
-        return cls(x, y, radius)
+        # Poprawka znaku
+        return cls(x, y, abs(radius))
 
     @property
     def top(self):
