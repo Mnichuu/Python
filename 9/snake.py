@@ -47,9 +47,11 @@ def draw_poison_apple(poison_apple):
     pygame.draw.rect(screen, BLUE, pygame.Rect(poison_apple[0], poison_apple[1], BLOCK_SIZE, BLOCK_SIZE))
 
 
-def move_snake(snake, direction, grow_tail=False, shorten_tail=False):
+def move_snake(snake, direction, grow_tail=False):
     new_head = (snake[0][0] + direction[0] * BLOCK_SIZE, snake[0][1] + direction[1] * BLOCK_SIZE)
     snake.insert(0, new_head)
+    if not grow_tail:
+        snake.pop()
 
 
 def generate_apple(snake):
@@ -91,21 +93,18 @@ def main():
                 elif event.key == pygame.K_RIGHT and direction != LEFT:
                     direction = RIGHT
 
-        grow_tail = False
-        shorten_tail = False
-
-        move_snake(snake, direction, grow_tail, shorten_tail)
+        move_snake(snake, direction, grow_tail=False)
 
         # Sprawdzenie kolizji z jabłkiem
         if snake[0] == apple:
             score += 1
+            move_snake(snake, direction, grow_tail=True)  # Wydłuż węża
             apple = generate_apple(snake)
 
-        grow_tail = False
         # Sprawdzenie kolizji z niebieskim jabłkiem
         if snake[0] == poison_apple:
             score -= 1
-            snake.pop() # Skróć węża
+            snake.pop()  # Skróć węża
             poison_apple = generate_poison_apple(snake)
 
         # Sprawdzenie kolizji z samym sobą
@@ -132,12 +131,6 @@ def main():
 
         pygame.display.flip()
         clock.tick(FPS)
-
-
-if __name__ == "__main__":
-    main()
-
-
 
 
 if __name__ == "__main__":
