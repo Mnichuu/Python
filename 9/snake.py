@@ -103,7 +103,12 @@ def main():
 
         # Sprawdzenie kolizji z niebieskim jabłkiem
         if snake[0] == poison_apple:
-            score -= 1
+            if (score == 0):
+                print("Game Over! Your score:", score)
+                pygame.quit()
+                sys.exit()
+            else:
+                score -= 1
             snake.pop()  # Skróć węża
             poison_apple = generate_poison_apple(snake)
 
