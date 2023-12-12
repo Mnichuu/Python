@@ -1,5 +1,5 @@
 
-# Sposób 1: Używając pojedynczych przypisań do każdej liczby rzymskiej:
+# Sposób 01: Używając pojedynczych przypisań do każdej liczby rzymskiej:
 def sposob1(liczba_rzymska):
     cyfry_rzymskie = {
         'I': 1,
@@ -12,7 +12,7 @@ def sposob1(liczba_rzymska):
     }
 
 
-# Sposób 2: Automatyczne tworzenie par indexów z liczbą w potędze 10 + statyczna 5
+# Sposób 02: Automatyczne tworzenie par indexów z liczbą w potędze 10 + statyczna 05
 def sposob2(liczba_rzymska):
     cyfry_rzymskie = {litera: 10 ** exp for exp, litera in enumerate('IXCMVLD')}
     cyfry_rzymskie['V'] = 5

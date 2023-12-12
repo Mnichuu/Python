@@ -10,7 +10,7 @@ class ZeroOneIterator:
         return result
 
 
-print("====Iteratior0-1=====")
+print("====Iteratior0-01=====")
 zero_one_iter = ZeroOneIterator()
 for _ in range(10):
     print(next(zero_one_iter))
