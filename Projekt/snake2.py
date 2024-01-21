@@ -197,7 +197,6 @@ def pause_game(score):
     font = pygame.font.Font(None, 36)
     text = font.render("Game paused. Press 'R' to resume or 'Q' to quit.", True, BLACK)
 
-
     # Stwórz powierzchnię tła o szerokości całego ekranu
     background_surface = pygame.Surface((screen.get_width(), screen.get_height()))
     background_surface.fill((128, 128, 128))  # Szary kolor tła
