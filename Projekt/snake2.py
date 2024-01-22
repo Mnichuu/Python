@@ -41,35 +41,32 @@ pygame.display.set_caption("Snake Game")
 clock = pygame.time.Clock()
 
 
+# Funkcja rysująca węża na ekranie, przechodzi przez cały segment węża i rysuje prostokąty
 def draw_snake(snake):
     for segment in snake:
         pygame.draw.rect(screen, GREEN, pygame.Rect(segment[0], segment[1], BLOCK_SIZE, BLOCK_SIZE))
 
 
+# Funkcja rysująca jabłko na ekranie
 def draw_apple(apple):
     pygame.draw.rect(screen, RED, pygame.Rect(apple[0], apple[1], BLOCK_SIZE, BLOCK_SIZE))
 
 
+# Funkcja rysująca zatrute jabłko na ekranie
 def draw_poison_apple(poison_apple):
     pygame.draw.rect(screen, BLUE, pygame.Rect(poison_apple[0], poison_apple[1], BLOCK_SIZE, BLOCK_SIZE))
 
 
-def draw_grid(surface):
-    for x in range(0, WIDTH, BLOCK_SIZE):
-        pygame.draw.line(surface, GRID_COLOR, (x, 0), (x, HEIGHT))
-    for y in range(0, HEIGHT, BLOCK_SIZE):
-        pygame.draw.line(surface, GRID_COLOR, (0, y), (WIDTH, y))
-
-
+# Funkcja przemieszczania węża po planszy
 def move_snake(snake, direction, grow_tail=False):
     new_head = (snake[0][0] + direction[0] * BLOCK_SIZE, snake[0][1] + direction[1] * BLOCK_SIZE)
-    snake.insert(0, new_head)
+    snake.insert(0, new_head)  # Dodanie nowej głowy na początek
     if not grow_tail:
         snake.pop()
-
     return True
 
 
+# Losowe generowanie jabłka na ekranie z uwzględnieniem pozycji węża
 def generate_apple(snake):
     while True:
         apple = (random.randrange(0, WIDTH // BLOCK_SIZE) * BLOCK_SIZE,
@@ -78,6 +75,7 @@ def generate_apple(snake):
             return apple
 
 
+# Losowe generowanie jabłka na ekranie z uwzględnieniem pozycji węża
 def generate_poison_apple(snake):
     while True:
         poison_apple = (random.randrange(0, WIDTH // BLOCK_SIZE) * BLOCK_SIZE,
@@ -87,24 +85,26 @@ def generate_poison_apple(snake):
 
 
 def start_screen():
-    font = pygame.font.Font(None, 36)
-    text = font.render("Press any key to start", True, BLACK)
-    text_rect = text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
+    font = pygame.font.Font(None, 36)  # Inicjalizacja czcionki
+    text = font.render("Press any key to start", True, BLACK)  # Utworzenie tekstu
+    text_rect = text.get_rect(center=(WIDTH // 2, HEIGHT // 2))  # Pozycja tekstu
 
-    screen.fill(WHITE)
-    screen.blit(text, text_rect)
-    pygame.display.flip()
+    screen.fill(WHITE)  # Wypełnienie ekranu białym kolorem
+    screen.blit(text, text_rect)  # Rysowanie tekstu na ekranie
+    pygame.display.flip()  # Aktualizacja ekranu, aby pokazać wprowadzone zmiany
 
+    # Oczekiwanie na naciśnięcie dowolnego klawisza
     waiting_for_key = True
     while waiting_for_key:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-            elif event.type == pygame.KEYDOWN:
+            elif event.type == pygame.KEYDOWN or event.type == pygame.MOUSEBUTTONDOWN:
                 waiting_for_key = False
 
 
+# Funkcja odpowiedzialna z wyświetlanie tablicy wyników
 def display_scoreboard():
     scores = []
 
@@ -120,10 +120,10 @@ def display_scoreboard():
         # Sortowanie wyników malejąco według wyników
         scores.sort(key=itemgetter("score"), reverse=True)
 
-        # Wyświetlanie pięciu najlepszych wyników
         font = pygame.font.Font(None, 36)
         text_y = 140
 
+        # Wyświetlanie pięciu najlepszych wyników
         for i, entry in enumerate(scores[:5]):
             text = font.render(f"{i + 1}. {entry['name']}: {entry['score']}, Date: {entry['date']}", True, BLACK)
             screen.blit(text, (10, text_y))
@@ -135,7 +135,9 @@ def display_scoreboard():
         print("Scores file not found.")
 
 
+# Funkcja odpowiedzialna za prowadzanie nicku + zapisywanie do pliku płaskiego
 def save_score_with_nick(score):
+    # Inicjalizacja zmiennych
     font = pygame.font.Font(None, 36)
     end_text = font.render("Game over! Your score is: " + str(score), True, GREEN)
     text = font.render("Enter your nickname and press 'Enter' to save your score: ", True, GREEN)
@@ -180,6 +182,7 @@ def save_score_with_nick(score):
         clock.tick(FPS)
 
 
+# Funkcja zapisująca dane do pliku płaskiego
 def save_score_with_nick_to_file(score, nick):
     with open("scores.txt", "a") as file:
         # czas
@@ -187,31 +190,35 @@ def save_score_with_nick_to_file(score, nick):
         file.write("{}, {}, {}\n".format(nick, score, timestamp))
 
 
+# Funkcja odpowiedzialna za wyświetlanie ilości punktów na koniec gry
 def display_score(score):
     font = pygame.font.Font(None, 36)
     text = font.render("Score: {}".format(score), True, GREEN)
     screen.blit(text, (10, 10))
 
 
+# Funkcja wprowadzająca możliwość pauzowania gry
 def pause_game(score):
+    # Inicjalizacja zmiennych
     font = pygame.font.Font(None, 36)
     text = font.render("Game paused. Press 'R' to resume or 'Q' to quit.", True, BLACK)
 
-    # Stwórz powierzchnię tła o szerokości całego ekranu
+    # Tworzenie poweirzchni o rozmiarach całego okna
     background_surface = pygame.Surface((screen.get_width(), screen.get_height()))
     background_surface.fill((128, 128, 128))  # Szary kolor tła
-    background_surface.set_alpha(128)
+    background_surface.set_alpha(128)  # Przeźroczystość
 
     # Ustawienie prostokąta tekstu w środku ekranu
     text_rect = text.get_rect(center=(screen.get_width() // 2, screen.get_height() // 2))
 
-    # Rysuj tło i tekst na ekranie
+    # Rysowanie tła i tekstu
     screen.blit(background_surface, (0, 0))  # Ustawienie tła na całe okno
     screen.blit(text, text_rect)
 
     # Odświeżenie ekranu
     pygame.display.flip()
 
+    # Czekanie na odpowiedni przycisk
     waiting_for_key = True
     while waiting_for_key:
         for event in pygame.event.get():
@@ -229,11 +236,13 @@ def pause_game(score):
         clock.tick(FPS)
 
 
+# Wyświetlanie obecnego wyniku dynamicznie w oknie w trakcie gry
 def display_current_score(score):
+    # Inicjalizacja czcionki
     font = pygame.font.Font(None, 36)
-
-    # Tworzenie powierzchni dla tekstu z przezroczystym szarym tłem
     text_surface = font.render("Current Score: {}".format(score), True, (0, 0, 0))
+
+    # Tworzenie powierzchni dla tekstu z przeźroczystym szarym tłem
     background_surface = pygame.Surface((text_surface.get_width(), text_surface.get_height()))
     background_surface.fill((128, 128, 128))  # Szary kolor tła
     background_surface.set_alpha(128)  # Przezroczystość
@@ -243,21 +252,28 @@ def display_current_score(score):
     screen.blit(text_surface, (WIDTH - 250, 10))
 
 
+# Funkcja umożliwiająca wybór trudności gry
 def select_difficulty():
+    # Inicjalizacja czcionki i tekstu
     font = pygame.font.Font(None, 36)
     text = font.render("Select difficulty: E - Easy, M - Medium, H - Hard", True, GREEN)
 
+    # Załadowanie logo gry
     snake_logo = pygame.image.load("SnakeLogo.png")
 
-    # Pomniejsz zdjęcie o połowę
+    # Pomniejszenie zdjęcia o połowę
     new_size = (snake_logo.get_width() // 2, snake_logo.get_height() // 2)
     snake_logo_resized = pygame.transform.scale(snake_logo, new_size)
     logo_rect = snake_logo_resized.get_rect(center=(WIDTH // 2, HEIGHT // 2))
 
+    # Rysowanie logo i tekstu na ekranie
     screen.blit(text, (100, 10))
     screen.blit(snake_logo_resized, logo_rect)
+
+    # Aktualizacja ekranu
     pygame.display.flip()
 
+    # Zwracanie wyboru
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -272,14 +288,18 @@ def select_difficulty():
                     return HARD
 
 
+# Główna pętla gry
 def main():
+    # Ustawienie poziomu trudności
     difficulty = select_difficulty()
     global FPS, APPLE_DURATION
     FPS = difficulty["FPS"]
     APPLE_DURATION = difficulty["APPLE_DURATION"]
 
+    # Wyświetlenie ekranu startowego
     start_screen()
 
+    # Inicjalizacja początkowych obiektów gry
     snake = [(WIDTH // 2, HEIGHT // 2)]
     direction = RIGHT
     apple = generate_apple(snake)
@@ -289,15 +309,11 @@ def main():
     score = 0
     move = True
 
-    grid_surface = pygame.Surface((WIDTH, HEIGHT))  # Powierzchnia dla kratki
-    grid_surface.fill(WHITE)  # Wypełnienie białym kolorem
-    draw_grid(grid_surface)  # Narysowanie kratki
+    # Pętla zmian kierunków poruszania się węża
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                save_score_with_nick(score)
-                pygame.quit()
-                sys.exit()
+                pause_game(score)
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP and direction != DOWN and move:
                     direction = UP
@@ -321,8 +337,8 @@ def main():
         if snake[0] == apple:
             score += 1
             move_snake(snake, direction, grow_tail=True)  # Wydłuż węża
-            apple_duration_counter = APPLE_DURATION
-            apple = generate_apple(snake)
+            apple_duration_counter = APPLE_DURATION  # Reset czasu trwania jabłka
+            apple = generate_apple(snake)  # Generowanie kolejnego jabłka
 
         # Sprawdzenie kolizji z niebieskim jabłkiem
         if snake[0] == poison_apple:
@@ -333,38 +349,41 @@ def main():
             else:
                 score -= 1
             snake.pop()  # Skróć węża
-            poison_apple = generate_poison_apple(snake)
+            poison_apple = generate_poison_apple(snake)  # Generowanie kolejnego zatrutego jabłka
 
         # Sprawdzenie kolizji z samym sobą
         if snake[0] in snake[1:]:
             print("Game Over! Your score:", score)
-            save_score_with_nick(score)
-            display_score(score)
+            save_score_with_nick(score)  # Możliwość zapisania wyniku
+            display_score(score)  # Wyświetlenie wyniku na ekranie startowym
             pygame.quit()
             sys.exit()
 
         # Sprawdzenie periodycznych warunków brzegowych
+        # Pozycja głowy węża jest po zastosowaniu operatora modulo
+        # przenoszona na driugi koniec ekranu
         snake[0] = (snake[0][0] % WIDTH, snake[0][1] % HEIGHT)
 
         # Rysowanie na ekranie
-        screen.fill(WHITE)
-        draw_snake(snake)
-        draw_apple(apple)
-        draw_poison_apple(poison_apple)
-        display_current_score(score)
-        pygame.display.flip()
+        screen.fill(WHITE)                  # Wypełnienie tła na biało
+        draw_snake(snake)                   # Rysowanie węża
+        draw_apple(apple)                   # Rysowanie jabłka
+        draw_poison_apple(poison_apple)     # Rysowanie zatrutego jabłka
+        display_current_score(score)        # Wyświetlanie aktualnego wyniku
+        pygame.display.flip()               # Aktualizacja ekranu gry
 
-        # Zmniejsz czas trwania jabłka
+        # Zmniejszanie czasu trwania jabłka
         if apple_duration_counter > 0:
             apple_duration_counter -= 1
         else:
-            apple = generate_apple(snake)
-            poison_apple = generate_poison_apple(snake)
-            apple_duration_counter = APPLE_DURATION
+            apple = generate_apple(snake)  # Rysowanie nowego jabłka
+            poison_apple = generate_poison_apple(snake)  # Rysowanie nowego zatrutego jabłka
+            apple_duration_counter = APPLE_DURATION  # Reset czasu trwania jabłek
 
-        pygame.display.flip()
-        clock.tick(FPS)
+        pygame.display.flip()  # Aktualizacja ekranu gry
+        clock.tick(FPS)  # Funkcja kontrolująca liczbę klatek na sekundę
 
 
+# Sprawdzenie bezpośredniego wywołania funkcji main
 if __name__ == "__main__":
     main()
