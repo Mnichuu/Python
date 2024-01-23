@@ -63,7 +63,6 @@ RIGHT = (1, 0)
 ```python
 # Funkcja rysująca węża na ekranie, przechodzi przez cały segment węża i rysuje prostokąty
 def draw_snake(snake):
-    pass
 
 
 # Funkcja rysująca jabłko na ekranie
